@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>키움히어로즈 소개 페이지</title>
+  <style>
+    :root {
+      --wine: #6e0f24;
+      --gold: #d9b36f;
+      --bg: #f4eee7;
+      --panel: #fffaf4;
+      --text: #1f1816;
+      --muted: #6c625c;
+      --line: rgba(110, 15, 36, 0.12);
+      --shadow: 0 22px 60px rgba(52, 18, 16, 0.14);
+      --radius: 24px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(217,179,111,.24), transparent 30%),
+        radial-gradient(circle at right 20%, rgba(110,15,36,.16), transparent 24%),
+        linear-gradient(180deg, #faf6f1 0%, var(--bg) 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; padding: 24px 0 48px; }
+    .topbar, .section, .editor { box-shadow: var(--shadow); }
+
+    .topbar {
+      position: sticky; top: 16px; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 14px 18px; border-radius: 999px;
+      background: rgba(255,250,244,.84); border: 1px solid rgba(255,255,255,.82);
+      backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .04em; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+      color: #fff; background: linear-gradient(135deg, var(--wine), #a11d37);
+    }
+    .nav { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: .95rem; }
+
+    .hero {
+      margin-top: 28px; padding: 42px; border-radius: 30px; color: #fff8f3;
+      background: linear-gradient(135deg, rgba(77,9,24,.97), rgba(110,15,36,.93));
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; right: -90px; top: -80px; width: 320px; height: 320px;
+      border-radius: 50%; background: rgba(255,255,255,.05);
+    }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.25fr .95fr; gap: 28px; align-items: center; }
+    .eyebrow, .badge {
+      display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.1);
+    }
+    .eyebrow { margin-bottom: 18px; font-size: .9rem; }
+    h1 { margin: 0 0 16px; font-size: clamp(2.8rem, 5vw, 5rem); line-height: .94; letter-spacing: -.05em; }
+    .hero-copy { margin: 0; line-height: 1.8; color: rgba(255,248,243,.9); }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 46px;
+      padding: 0 18px; border-radius: 999px; font-weight: 700; border: 1px solid transparent;
+    }
+    .primary { background: var(--gold); color: #2d170f; }
+    .secondary { background: rgba(255,255,255,.08); color: #fff8f3; border-color: rgba(255,255,255,.16); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .hero-side { display: grid; gap: 14px; }
+    .stat {
+      padding: 20px; border-radius: var(--radius);
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
+    }
+    .stat-label { display: block; margin-bottom: 8px; color: rgba(255,248,243,.72); font-size: .88rem; }
+    .stat-value { font-size: 1.7rem; font-weight: 800; }
+
+    .section {
+      margin-top: 28px; border-radius: 30px; background: rgba(255,250,244,.84);
+      border: 1px solid rgba(255,255,255,.78); overflow: hidden;
+    }
+    .section-inner { padding: 32px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; }
+    .section-head h2 { margin: 0; font-size: 1.5rem; }
+    .section-head p, .card p, .source p { margin: 0; color: var(--muted); line-height: 1.75; }
+
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 18px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .card, .source {
+      padding: 22px; border-radius: var(--radius); background: var(--panel); border: 1px solid var(--line);
+    }
+    .card h3, .source h3 { margin: 0 0 10px; font-size: 1.05rem; }
+    .meta { display: block; margin-bottom: 8px; color: var(--muted); font-size: .88rem; }
+    .star { background: linear-gradient(180deg, rgba(217,179,111,.12), rgba(255,250,244,.98)); border-color: rgba(217,179,111,.55); }
+    .star-tag {
+      display: inline-flex; padding: 7px 10px; border-radius: 999px; margin-bottom: 12px;
+      background: rgba(110,15,36,.92); color: #fff8f1; font-size: .82rem; font-weight: 800;
+    }
+    .franchise-copy { margin-top: 12px; color: var(--wine); font-weight: 700; }
+    .source-link { color: var(--wine); font-weight: 700; }
+
+    .editor {
+      position: fixed; right: 18px; bottom: 18px; z-index: 20; width: min(280px, calc(100vw - 36px));
+      display: grid; gap: 10px; padding: 16px; border-radius: 22px;
+      background: rgba(255,250,244,.94); border: 1px solid rgba(255,255,255,.82); backdrop-filter: blur(16px);
+    }
+    .editor h3, .editor p { margin: 0; }
+    .editor p { color: var(--muted); line-height: 1.6; font-size: .9rem; }
+    .editor-actions { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .editor-actions button {
+      min-height: 40px; border: 0; border-radius: 12px; font: inherit; font-weight: 700; cursor: pointer;
+      background: rgba(110,15,36,.08); color: var(--wine);
+    }
+    .editor-actions .primary { color: #fff8f3; }
+
+    .editable-on [data-editable="true"] {
+      outline: 2px dashed rgba(110,15,36,.22);
+      outline-offset: 4px;
+      cursor: text;
+    }
+    .editable-on a[data-editable-link="true"] { box-shadow: inset 0 -2px 0 rgba(217,179,111,.8); }
+    footer { padding: 28px 12px 8px; text-align: center; color: var(--muted); font-size: .92rem; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .topbar { position: static; border-radius: 24px; align-items: flex-start; }
+      .hero, .section-inner { padding: 26px; }
+      .editor-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="editable-on">
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">K</div>
+        <div data-editable="true">KIWOOM HEROES</div>
+      </div>
+      <nav class="nav">
+        <a href="#identity" data-editable="true" data-editable-link="true">구단 정보</a>
+        <a href="#roster" data-editable="true" data-editable-link="true">주요 선수</a>
+        <a href="#franchise" data-editable="true" data-editable-link="true">프랜차이즈 스타</a>
+        <a href="#postseason" data-editable="true" data-editable-link="true">포스트시즌</a>
+        <a href="#fans" data-editable="true" data-editable-link="true">팬문화</a>
+        <a href="#gallery" data-editable="true" data-editable-link="true">로고·사진</a>
+        <a href="#sources" data-editable="true" data-editable-link="true">출처</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow" data-editable="true">서울 연고 KBO 리그 구단</div>
+            <h1 data-editable="true">키움히어로즈</h1>
+            <p class="hero-copy" data-editable="true">키움히어로즈는 2008년 3월 24일 창단한 서울 연고의 KBO 리그 구단입니다. 홈구장은 고척스카이돔이며, 실제 구단 정보와 주요 선수, 프랜차이즈 스타, 팬문화를 한 페이지에 정리했습니다.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#roster" data-editable="true" data-editable-link="true">주요 선수 보기</a>
+              <a class="button secondary" href="#sources" data-editable="true" data-editable-link="true">출처 보기</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge" data-editable="true">2008년 창단</span>
+              <span class="badge" data-editable="true">서울 연고</span>
+              <span class="badge" data-editable="true">고척스카이돔</span>
+              <span class="badge" data-editable="true">메인 스폰서 키움증권</span>
+            </div>
+          </div>
+          <div class="hero-side">
+            <article class="stat"><span class="stat-label" data-editable="true">창단일</span><div class="stat-value" data-editable="true">2008.03.24</div></article>
+            <article class="stat"><span class="stat-label" data-editable="true">홈구장</span><div class="stat-value" data-editable="true">고척스카이돔</div></article>
+            <article class="stat"><span class="stat-label" data-editable="true">연고지</span><div class="stat-value" data-editable="true">서울특별시</div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="identity">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">구단 기본 정보</h2>
+            <p data-editable="true">공식 홈페이지와 KBO 구단 소개 기준으로 정리한 핵심 정보입니다.</p>
+          </div>
+          <div class="grid-2">
+            <article class="card"><span class="meta" data-editable="true">Club</span><h3 data-editable="true">서울특별시 연고</h3><p data-editable="true">키움히어로즈는 서울을 연고로 하는 프로야구단입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Foundation</span><h3 data-editable="true">2008년 3월 24일 창단</h3><p data-editable="true">현재 체제의 출발점은 2008년 창단한 히어로즈 구단입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Sponsor</span><h3 data-editable="true">키움증권 네이밍 스폰서</h3><p data-editable="true">팀명은 메인 스폰서인 키움증권에서 따온 이름입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Leadership</span><h3 data-editable="true">대표이사 위재민 · 단장 허승필 · 감독 설종진</h3><p data-editable="true">현재 운영 체제를 기준으로 정리한 구단 핵심 운영 정보입니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roster">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">주요 선수 및 포지션 예시</h2>
+            <p data-editable="true">현재 페이지에서 직접 강조하는 주요 선수와 포지션 예시를 함께 정리했습니다.</p>
+          </div>
+          <div class="grid-4">
+            <article class="card"><span class="meta" data-editable="true">Pitchers</span><h3 data-editable="true">투수</h3><p data-editable="true">안우진, 하영민, 알칸타라, 김재웅, 배동현</p></article>
+            <article class="card"><span class="meta" data-editable="true">Catchers</span><h3 data-editable="true">포수</h3><p data-editable="true">김동헌, 김건희, 김재현</p></article>
+            <article class="card"><span class="meta" data-editable="true">Infielders</span><h3 data-editable="true">내야수</h3><p data-editable="true">어준서, 최주환, 안치홍, 서건창, 오선진</p></article>
+            <article class="card"><span class="meta" data-editable="true">Outfielders</span><h3 data-editable="true">외야수</h3><p data-editable="true">이주형, 박찬혁, 브룩스, 박주홍</p></article>
+          </div>
+          <div class="grid-4" style="margin-top:20px;">
+            <article class="card"><span class="meta" data-editable="true">Current Spotlight</span><h3 data-editable="true">이주형</h3><p data-editable="true">중심 외야 자원으로 현재 페이지에서 대표 선수 카드에 포함한 이름입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Current Spotlight</span><h3 data-editable="true">안우진</h3><p data-editable="true">마운드 상징성이 큰 투수 자원으로 주요 선수 설명의 중심에 둔 선수입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Current Spotlight</span><h3 data-editable="true">서건창</h3><p data-editable="true">베테랑 내야수로서 경험과 팀 컬러를 함께 보여주는 선수입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Current Spotlight</span><h3 data-editable="true">최주환</h3><p data-editable="true">내야 중심축 역할로 현재 페이지에서 함께 강조한 주요 선수입니다.</p></article>
+          </div>
+          <div class="grid-2" style="margin-top:20px;">
+            <article class="card"><span class="meta" data-editable="true">Main Names</span><h3 data-editable="true">현재 작성된 주요 선수 기준</h3><p data-editable="true">현재 페이지의 주요 선수 카드는 이주형, 안우진, 서건창, 최주환을 기준으로 설명하고 있습니다.</p><div class="badge-row"><span class="badge" data-editable="true">이주형</span><span class="badge" data-editable="true">안우진</span><span class="badge" data-editable="true">서건창</span><span class="badge" data-editable="true">최주환</span></div></article>
+            <article class="card"><span class="meta" data-editable="true">Notes</span><h3 data-editable="true">주요 선수 선정 기준</h3><p data-editable="true">이 구역은 전체 선수단이 아니라, 페이지 안에서 직접 강조한 선수 4명을 기준으로 설명을 붙인 영역입니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="franchise">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">역대 프랜차이즈 스타</h2>
+            <p data-editable="true">히어로즈 계열 구단을 상징하는 대표 선수들입니다.</p>
+          </div>
+          <div class="grid-4">
+            <article class="card star"><div class="star-tag" data-editable="true">Franchise Star</div><span class="meta" data-editable="true">Power Icon</span><h3 data-editable="true">박병호</h3><p data-editable="true">장타력과 존재감으로 히어로즈 시절을 대표했던 거포 이미지의 중심 선수입니다.</p><p class="franchise-copy" data-editable="true">프랜차이즈 스타를 말할 때 가장 먼저 떠오르는 이름입니다.</p></article>
+            <article class="card star"><div class="star-tag" data-editable="true">Franchise Star</div><span class="meta" data-editable="true">Contact Icon</span><h3 data-editable="true">서건창</h3><p data-editable="true">상징적인 시즌 퍼포먼스로 팬들에게 강하게 각인된 내야수입니다.</p><p class="franchise-copy" data-editable="true">2014년 서사를 이야기할 때 빠질 수 없는 핵심 얼굴입니다.</p></article>
+            <article class="card star"><div class="star-tag" data-editable="true">Franchise Star</div><span class="meta" data-editable="true">Two-way Shortstop</span><h3 data-editable="true">김하성</h3><p data-editable="true">공수 밸런스와 성장 서사로 구단 육성 성공 사례의 대표 격으로 인식됩니다.</p><p class="franchise-copy" data-editable="true">현대적인 프랜차이즈 스타의 대표 사례입니다.</p></article>
+            <article class="card star"><div class="star-tag" data-editable="true">Franchise Star</div><span class="meta" data-editable="true">Face of Heroes</span><h3 data-editable="true">이정후</h3><p data-editable="true">타격, 스타성, 상징성 면에서 키움히어로즈 시대를 대표한 얼굴로 평가받습니다.</p><p class="franchise-copy" data-editable="true">대중 인지도까지 고려하면 가장 강한 프랜차이즈 스타 중 한 명입니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="postseason">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">포스트시즌 하이라이트</h2>
+            <p data-editable="true">히어로즈 계열 구단 역사에서 포스트시즌 존재감은 팀 정체성을 설명하는 핵심 요소입니다.</p>
+          </div>
+          <div class="grid-3">
+            <article class="card"><span class="meta" data-editable="true">2014</span><h3 data-editable="true">첫 한국시리즈 준우승</h3><p data-editable="true">넥센 히어로즈 시절 팀 존재감을 크게 키운 상징적인 시즌입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">2019</span><h3 data-editable="true">키움 이름으로 한국시리즈 진출</h3><p data-editable="true">키움히어로즈 이름으로 치른 시즌 중 가장 상징적인 장면 가운데 하나입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">2022</span><h3 data-editable="true">다시 한 번 한국시리즈 무대</h3><p data-editable="true">가을야구 경험이 많은 팀이라는 인상을 다시 강화한 시즌으로 기억됩니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="fans">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">응원가와 팬문화</h2>
+            <p data-editable="true">공식 메뉴에 응원단 섹션이 따로 있을 만큼 현장 응원 문화가 강한 팀입니다.</p>
+          </div>
+          <div class="grid-2">
+            <article class="card"><span class="meta" data-editable="true">Cheer Team</span><h3 data-editable="true">공식 응원단 운영</h3><p data-editable="true">공식 홈페이지 팬 메뉴에서 응원단 소개가 제공되며 홈경기 응원을 이끕니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Cheer Songs</span><h3 data-editable="true">선수별 응원가 중심</h3><p data-editable="true">선수 개인 응원가, 찬스 구호, 이닝 이벤트 같은 참여형 흐름이 강한 편입니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Mascots</span><h3 data-editable="true">턱돌이 · 동글이</h3><p data-editable="true">마스코트 서사는 가족 관람층과 팬문화의 연결 지점을 보여줍니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Membership</span><h3 data-editable="true">연간회원과 현장 체험</h3><p data-editable="true">연간회원, 이닝 이벤트, 파트너 데이 같은 현장형 경험이 꾸준히 운영됩니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="gallery">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">로고·사진 메모</h2>
+            <p data-editable="true">깨진 외부 이미지는 모두 제거했고 현재는 텍스트 중심으로 정리한 상태입니다.</p>
+          </div>
+          <div class="grid-2">
+            <article class="card"><span class="meta" data-editable="true">Official BI</span><h3 data-editable="true">메인 엠블럼</h3><p data-editable="true">현재 페이지에서는 깨진 이미지 대신 로고 관련 설명만 남겨두었습니다.</p></article>
+            <article class="card"><span class="meta" data-editable="true">Image Policy</span><h3 data-editable="true">외부 이미지 제거</h3><p data-editable="true">사진이 안정적으로 보이지 않는 경우를 피하기 위해 외부 선수 사진과 기사 사진은 모두 제거했습니다.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="section-inner">
+          <div class="section-head">
+            <h2 data-editable="true">출처 및 기준일</h2>
+            <p data-editable="true">2026년 4월 15일 기준으로 확인한 공식 출처를 바탕으로 정리했습니다.</p>
+          </div>
+          <div class="grid-3">
+            <article class="source"><span class="meta" data-editable="true">Source 01</span><h3><a class="source-link" href="https://www.koreabaseball.com/kbo/league/teaminfo.aspx" target="_blank" rel="noreferrer" data-editable-link="true">KBO 구단 소개</a></h3><p data-editable="true">창단년도, 연고지, 대표이사, 단장, 감독 정보 확인에 사용했습니다.</p></article>
+            <article class="source"><span class="meta" data-editable="true">Source 02</span><h3><a class="source-link" href="https://heroesbaseball.co.kr/heroes/bi/bi.do" target="_blank" rel="noreferrer" data-editable-link="true">키움히어로즈 공식 BI</a></h3><p data-editable="true">구단 BI, 마스코트, 유니폼 관련 정보 확인에 사용했습니다.</p></article>
+            <article class="source"><span class="meta" data-editable="true">Source 03</span><h3><a class="source-link" href="https://heroesbaseball.co.kr/mobile/players/pitcher/list.do" target="_blank" rel="noreferrer" data-editable-link="true">공식 선수단</a></h3><p data-editable="true">현재 선수단과 포지션별 이름 예시를 정리하는 기준으로 사용했습니다.</p></article>
+            <article class="source"><span class="meta" data-editable="true">Source 04</span><h3><a class="source-link" href="https://heroesbaseball.co.kr/mobile/fans/cheer/introTeam-view.do?fr_num=67" target="_blank" rel="noreferrer" data-editable-link="true">응원단 소개</a></h3><p data-editable="true">응원단 운영과 팬문화 설명의 공식 근거로 사용했습니다.</p></article>
+            <article class="source"><span class="meta" data-editable="true">Source 05</span><h3><a class="source-link" href="https://heroesbaseball.co.kr/mobile/heroes/stadium/location.do" target="_blank" rel="noreferrer" data-editable-link="true">고척스카이돔 안내</a></h3><p data-editable="true">홈구장 위치와 접근 정보 확인에 사용했습니다.</p></article>
+            <article class="source"><span class="meta" data-editable="true">Source 06</span><h3><a class="source-link" href="https://commons.wikimedia.org/" target="_blank" rel="noreferrer" data-editable-link="true">Wikimedia Commons</a></h3><p data-editable="true">이전 편집 단계에서 참고했던 공개 이미지 출처입니다.</p></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer data-editable="true">2026년 4월 15일 기준 실제 구단 정보를 바탕으로 정리한 키움히어로즈 소개 페이지입니다.</footer>
+  </div>
+
+  <aside class="editor">
+    <h3>웹 편집 모드</h3>
+    <p>문구를 직접 수정하고 저장할 수 있습니다. 링크는 더블클릭으로 바꿀 수 있습니다.</p>
+    <div class="editor-actions">
+      <button class="primary" type="button" id="toggleEdit">편집 종료</button>
+      <button type="button" id="saveEdit">브라우저 저장</button>
+      <button type="button" id="resetEdit">초기화</button>
+      <button type="button" id="exportHtml">HTML 내보내기</button>
+    </div>
+  </aside>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "kiwoom-heroes-editable-v2";
+      const toggleButton = document.getElementById("toggleEdit");
+      const saveButton = document.getElementById("saveEdit");
+      const resetButton = document.getElementById("resetEdit");
+      const exportButton = document.getElementById("exportHtml");
+      const editables = Array.from(document.querySelectorAll("[data-editable='true']"));
+      const links = Array.from(document.querySelectorAll("a"));
+      links.forEach((link) => link.setAttribute("data-editable-link", "true"));
+
+      const serialize = () => ({
+        texts: editables.map((node) => node.innerHTML),
+        links: links.map((node) => node.getAttribute("href") || "")
+      });
+
+      const applyState = (state) => {
+        if (!state) return;
+        if (Array.isArray(state.texts)) {
+          editables.forEach((node, i) => {
+            if (typeof state.texts[i] === "string") node.innerHTML = state.texts[i];
+          });
+        }
+        if (Array.isArray(state.links)) {
+          links.forEach((node, i) => {
+            if (typeof state.links[i] === "string") node.setAttribute("href", state.links[i]);
+          });
+        }
+      };
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try { applyState(JSON.parse(saved)); } catch (_) {}
+      }
+
+      let editMode = false;
+      const setEditMode = (next) => {
+        editMode = next;
+        document.body.classList.toggle("editable-on", editMode);
+        editables.forEach((node) => node.setAttribute("contenteditable", editMode ? "true" : "false"));
+        toggleButton.textContent = editMode ? "편집 종료" : "편집 시작";
+      };
+
+      links.forEach((link) => {
+        link.addEventListener("dblclick", (event) => {
+          if (!editMode) return;
+          event.preventDefault();
+          const nextHref = window.prompt("새 링크 URL을 입력하세요.", link.getAttribute("href") || "");
+          if (nextHref !== null) link.setAttribute("href", nextHref);
+        });
+      });
+
+      toggleButton.addEventListener("click", () => setEditMode(!editMode));
+      saveButton.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(serialize()));
+        window.alert("현재 편집 내용을 이 브라우저에 저장했습니다.");
+      });
+      resetButton.addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEY);
+        window.location.reload();
+      });
+      exportButton.addEventListener("click", () => {
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll("[contenteditable]").forEach((node) => node.removeAttribute("contenteditable"));
+        const blob = new Blob(["<!DOCTYPE html>\n" + clone.outerHTML], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "kiwoom-heroes-edited.html";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      setEditMode(false);
+    })();
+  </script>
+
+
+</body></html>
